@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://pay.paymentiq.io/cashier/master/",
+  "chromeWebSecurity": false
+}
