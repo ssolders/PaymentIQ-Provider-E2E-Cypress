@@ -1,6 +1,7 @@
 # PaymentIQ-Provider-E2E-Cypress
-Cypress e2e tests for PaymentIQ providers
+Cypress e2e tests for PaymentIQ providers.
 
+Tests and helper functions are written in Typescript.
 
 Install dependencies
 ```
