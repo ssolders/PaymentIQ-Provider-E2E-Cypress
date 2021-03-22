@@ -1,34 +1,35 @@
 /// <reference types="Cypress" />
 
-import { triggerIframeAction, visitOptions } from '../../utils/helpers'
+// import the necessary types
+import { IPiqCashierConfig } from 'paymentiq-cashier-bootstrapper'
 import { ITestCredentials, IProviderCredentials } from '../../../types'
+
+import { triggerIframeAction, visitOptions } from '../../utils/helpers'
 import { getTestCredentials } from '../../service'
 
 const paymentMethod = 'creditcard'
-const provider = 'bamboraGA'
-const cashierBaseParameters = {
-  userId: 'TestAgentEUR',
-  providerType: paymentMethod,
-  amount: 200,
-  showAccounts: false
-}
+const paymentMethodCredentials = 'bamboraGA'
 
-describe("Browse the PaymentIQ Cashier and make sure it loads as it should", () => {
+describe("Load the PaymentIQ Cashier and complete a Creditcard via BamboraGA deposit", () => {
   let testCredentials: IProviderCredentials | null = null
+  const cashierBaseParameters: IPiqCashierConfig = {
+    ...visitOptions.qs, // base setup (merchantId, environment)
+    providerType: paymentMethod,
+    amount: 200,
+    showAccounts: false
+  }
   
   beforeEach(async () => {
     const data: ITestCredentials = await getTestCredentials('dummyUrl')
-    testCredentials = data[provider]
+    testCredentials = data[paymentMethodCredentials]
+    cashierBaseParameters.userId = testCredentials.piqUserId
   })
 
-  it("The Cashier loads", () => {
+  it("The Cashier loads and submits a creditcard payment using the fetched test credentials for BamboraGA", () => {
     // baseUrl is defined in cypress.json
     cy.visit('/', {
       ...visitOptions,
-      qs: {
-        ...visitOptions.qs,
-        ...cashierBaseParameters
-      }
+      qs: cashierBaseParameters // build up the query parameters (?merchantId=1024&environment=test etc)
     });
 
     // We're gonna interact with iframes - give them a sec to load. This is an arbitrary timeout but
@@ -47,5 +48,6 @@ describe("Browse the PaymentIQ Cashier and make sure it loads as it should", () 
     cy.wait(6000)
     triggerIframeAction(cy, '.provider-iframe', el => el.find("form").eq(0).submit())
 
+    cy.url().should('include', 'https://pay.paymentiq.io/cashier/master/receipt')
   });
 })
