@@ -36,7 +36,7 @@ describe("Load the PaymentIQ Cashier and complete a Creditcard via BamboraGA dep
     // cypress doesn't have a better way of saying okay now the frame has loaded
     cy.wait(2000)
 
-    const { cardHolder, cardNumber, cardExpiry, cardCVC } = testCredentials.credentials
+    const { cardHolder, cardNumber, cardExpiry, cardCVC } = testCredentials.default.credentials
     triggerIframeAction(cy, '#hosted-field-single-iframe', el => el.find('#frmNameCC').type(cardHolder))
     triggerIframeAction(cy, '#hosted-field-single-iframe', el => el.find('#frmCCNum').type(cardNumber))
     triggerIframeAction(cy, '#hosted-field-single-iframe', el => el.find('#frmCCExp').type(cardExpiry))

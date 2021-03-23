@@ -38,7 +38,7 @@ describe("Load the PaymentIQ Cashier and complete a Trustly deposit", () => {
     // Give the 3DS iframe time to load
     cy.wait(3000)
 
-    const { nationalId } = testCredentials.credentials
+    const { nationalId } = testCredentials.default.credentials
     triggerIframeAction(cy, '.provider-iframe', el => el.find(".core_SelectMethod_Country_SE .core_method").first().click()) // select the first bank in sweden
     triggerIframeAction(cy, '.provider-iframe', el => el.find(".button_next").click()) // click continue
     triggerIframeAction(cy, '.provider-iframe', el => el.find("input[name='loginid']").clear()) // empty the input field to be safe
