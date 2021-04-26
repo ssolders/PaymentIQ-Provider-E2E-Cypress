@@ -1,5 +1,6 @@
 {
   "baseUrl": "https://pay.paymentiq.io/cashier/master/",
   "chromeWebSecurity": false,
-  "defaultCommandTimeout": 6000
+  "defaultCommandTimeout": 6000,
+  "video": false
 }
